@@ -1,0 +1,27 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <persistence-unit name="herotozero">	<!-- wird referenziert bei Erstellung des EntityManagers -->
+
+
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <!-- Database connection settings -->
+            <!-- Adapted for use with XAMPP/MySQL/phpMyAdmin -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/herotozero" /> <!-- Adresse der DB -->
+            <property name="jakarta.persistence.jdbc.user" value="root" />	<!-- Zugangsdaten der DB -->
+            <property name="jakarta.persistence.jdbc.password" value="" />
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>		<!-- Treiber der DB -->
+
+
+            <!-- Echo all executed SQL to console -->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.highlight_sql" value="true" />
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
