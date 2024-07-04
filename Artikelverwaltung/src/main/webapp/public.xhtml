@@ -39,6 +39,30 @@
         <p class="error"><h:outputText value="#{loginController.failureMessage}"/></p>
         <h:commandButton action="#{loginController.login}" value="Login"/>
     </h:form>
+    
+          <h3>p:dataTable</h3>
+            <p:dataTable value="#{shop.sortiment}" var="artikel">
+                <f:facet name="header">
+                    CO2-Emissionen
+                </f:facet>
+                <p:column>
+                    <f:facet name="header">Nr</f:facet>
+                    <h:outputText value="#{artikel.nr}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">Name</f:facet>
+                    <h:outputText value="#{artikel.name}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">Beschreibung</f:facet>
+                    <h:outputText value="#{artikel.text}"/>
+                </p:column>
+                <p:column sortBy="#{artikel.verfuegbarAb}" sortOrder="ascending">
+                    <f:facet name="header">Verfügbar ab</f:facet>
+                    <p:calendar value="#{artikel.verfuegbarAb}"/>
+                </p:column>
+            </p:dataTable>
     <p id="fussnote">Bitte beachten Sie: <br/> Diese Seite ist nur ein Entwurf!</p>
+    
 </h:body>
 </html>
