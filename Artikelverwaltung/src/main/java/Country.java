@@ -6,14 +6,14 @@ import java.util.*;
 @Entity
 public class Country implements Serializable {
 	@Id
-	@GeneratedValue
 	private int countryID;
 
 	private String name;
 
 	private char code;
 	
-	
+    @OneToMany(fetch= FetchType.EAGER)
+    private List<CO2Emission> co2Emissionen = new ArrayList<>();
 	
 
 	public Country() {
@@ -43,4 +43,11 @@ public class Country implements Serializable {
 		this.code = code;
 	}
 
+    public List<CO2Emission> getCO2Emissionen() {
+        return co2Emissionen;
+    }
+
+    public void addCO2Emission(CO2Emission co2Emission) {
+    	co2Emissionen.add(co2Emission);
+    }
 }

@@ -62,6 +62,19 @@
                     <p:calendar value="#{artikel.verfuegbarAb}"/>
                 </p:column>
             </p:dataTable>
+            
+            <h3>p:dataTable</h3>
+            <p:dataTable value="#{country.co2emissionen}" var="emissionen">
+                <f:facet name="header">
+                    CO2-Emissionen
+                </f:facet>
+                <p:column>
+                    <f:facet name="header">Nr</f:facet>
+                    <h:outputText value="#{emissionen}"/>
+                </p:column>
+            </p:dataTable>
+
+            
     <p id="fussnote">Bitte beachten Sie: <br/> Diese Seite ist nur ein Entwurf!</p>
     
 </h:body>
