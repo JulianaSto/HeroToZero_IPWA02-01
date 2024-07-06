@@ -36,24 +36,21 @@ public class CountryDAO {
         return query.getResultList();
     }*/
     
-    /*public List<Country> getAllCountriesWithEmissions() {			//In dieser Methode verwenden wir JOIN FETCH, um sicherzustellen, dass die CO2Emissionen zusammen mit den Country-Objekten abgerufen werden. Dadurch erhalten wir eine Liste von Country-Objekten, von denen jedes eine Liste von CO2Emission-Objekten enthält.
+  /* WORKS
+    public List<Country> getAllCountriesWithEmissions() {			
+   
+	   //In dieser Methode verwenden wir JOIN FETCH, um sicherzustellen, dass die CO2Emissionen zusammen mit den Country-Objekten abgerufen werden. Dadurch erhalten wir eine Liste von Country-Objekten, von denen jedes eine Liste von CO2Emission-Objekten enthält.
         TypedQuery<Country> query = entityManager.createQuery(
-            "SELECT DISTINCT c FROM Country c JOIN FETCH c.co2Emissionen", Country.class);
+            "SELECT DISTINCT c, e JOIN FETCH c.co2Emissionen", Country.class);
         return query.getResultList();
-    }*/
-  
-    public List<CO2Emission> getAllCO2EmissionsByCountry(Long countryId) {
-        TypedQuery<CO2Emission> query = entityManager.createQuery(
-            "SELECT e FROM CO2Emission e JOIN FETCH e.country c WHERE c.countryID = :countryId", CO2Emission.class);
-        query.setParameter("countryId", countryId);
-        List<CO2Emission> emissions = query.getResultList();
-        
-        // Set transient attributes
-        for (CO2Emission emission : emissions) {
-            emission.setCountryName(emission.getCountry().getName());
-        }
-        
-        return emissions;
     }
+    
+    */
+    public List<Country> getAllCountries() {
+        TypedQuery<Country> query = entityManager.createQuery("SELECT c FROM Country c", Country.class);
+        return query.getResultList();
+    }
+
+   
 
 }

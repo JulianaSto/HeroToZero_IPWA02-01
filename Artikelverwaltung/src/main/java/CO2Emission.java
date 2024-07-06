@@ -14,9 +14,7 @@ public class CO2Emission implements Serializable  {
     @JoinColumn(name = "countryID", referencedColumnName = "countryID")	//name = "countryID": Dies ist der Name der Spalte in der Tabelle CO2Emission, die den Fremdschlüssel zur Country-Tabelle darstellt. referencedColumnName = "countryID": Dies ist der Name der Spalte in der Tabelle Country, auf die die Spalte countryID in der Tabelle CO2Emission verweist.
     private Country country;
     
-    // Additional attributes from Country
-    @Transient
-    private String countryName; // transient attribute for country name
+
     
 	
 	public CO2Emission() {
