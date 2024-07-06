@@ -85,22 +85,22 @@
 
  <h3>Country and CO2 Emissions</h3>
 <h:form>
-    <h:dataTable value="#{countryDAO.allCountriesWithEmissions}" var="country">
+    <h:dataTable value="#{countryDAO.allCountriesWithEmissions}" var="countrys">
         <h:column>
             <f:facet name="header">Country ID</f:facet>
-            <h:outputText value="#{country.countryID}" />
+            <h:outputText value="#{countrys.countryID}" />
         </h:column>
         <h:column>
             <f:facet name="header">Country Name</f:facet>
-            <h:outputText value="#{country.name}" />
+            <h:outputText value="#{countrys.name}" />
         </h:column>
         <h:column>
             <f:facet name="header">Country Code</f:facet>
-            <h:outputText value="#{country.countryCode}" />
+            <h:outputText value="#{countrys.countryCode}" />
         </h:column>
         <h:column>
             <f:facet name="header">CO2 Emissions</f:facet>
-            <h:dataTable value="#{country.co2Emissionen}" var="emission">
+            <h:dataTable value="#{countrys.co2Emissionen}" var="emission">
                 <h:column>
                     <f:facet name="header">Year</f:facet>
                     <h:outputText value="#{emission.year}" />
