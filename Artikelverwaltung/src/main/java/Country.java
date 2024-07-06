@@ -10,10 +10,10 @@ public class Country implements Serializable {
 
 	private String name;
 
-	private char code;
+	private String countryCode;
 	
-    @OneToMany(fetch= FetchType.EAGER)
-    private List<CO2Emission> co2Emissionen = new ArrayList<>();
+	@OneToMany(mappedBy = "country", fetch = FetchType.EAGER, cascade = CascadeType.ALL)	//"country" bezieht sich auf das Attribut in CO2Emission
+    private List<CO2Emission> co2Emissionen = new ArrayList<>(); //Bei einer OneToMany-Beziehung wird immer eine Collection benötigt. co2Emissionen ist das Attribut in der Country-Entität, das die Beziehung zu CO2Emission darstellt. Dieses Attribut wird in der JPQL-Abfrage verwendet, um die Beziehung zwischen Country und CO2Emission zu definieren.
 	
 
 	public Country() {
@@ -35,12 +35,12 @@ public class Country implements Serializable {
 		this.name = name;
 	}
 
-	public char getCode() {
-		return code;
+	public String getCode() {
+		return countryCode;
 	}
 
-	public void setCode(char code) {
-		this.code = code;
+	public void setCode(String code) {
+		this.countryCode = code;
 	}
 
     public List<CO2Emission> getCO2Emissionen() {

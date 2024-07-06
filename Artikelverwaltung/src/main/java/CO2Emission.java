@@ -1,23 +1,29 @@
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Entity
 public class CO2Emission implements Serializable  {
 
-	@Id
-    @GeneratedValue
+    @Id
 	private int id;
 	private int year;
-    private int emission;
+    private float emission;
+    
+    @ManyToOne
+    @JoinColumn(name = "countryID", referencedColumnName = "countryID")	//name = "countryID": Dies ist der Name der Spalte in der Tabelle CO2Emission, die den Fremdschlüssel zur Country-Tabelle darstellt. referencedColumnName = "countryID": Dies ist der Name der Spalte in der Tabelle Country, auf die die Spalte countryID in der Tabelle CO2Emission verweist.
+    private Country country;
+    
+    // Additional attributes from Country
+    @Transient
+    private String countryName; // transient attribute for country name
+    
 	
 	public CO2Emission() {
 
     }
 
-    public CO2Emission (int year, int emission) {
+    public CO2Emission (int year, float emission) {
         this.year = year;
         this.emission = emission;
     }
@@ -38,7 +44,7 @@ public class CO2Emission implements Serializable  {
 		this.year = year;
 	}
 
-	public int getEmission() {
+	public float getEmission() {
 		return emission;
 	}
 
