@@ -20,6 +20,14 @@ public class LoginController implements Serializable {
 
     @Inject
     CurrentUser currentUser;
+    
+    @Inject
+    CountryDAO countryDAO;
+    
+    @Inject
+    Co2EmissionDAO co2EmissionDAO;
+    
+    private String currentCountryName;
 
     // TODO: diese Wert sollte aus einer Konfiguration kommen.
     //       Jede Installation sollte eine Unterschiedlich haben.
@@ -104,5 +112,21 @@ public class LoginController implements Serializable {
             System.exit(1);
         }
         System.out.println(Shop.hashPassword(args[0], args[1], salt));
+    }
+
+
+
+
+//Folgend: Eigene Implementierungen
+	public String getCurrentCountryName() {
+		return currentCountryName;
+	}
+
+	public void setCurrentCountryName(String currentCountryName) {
+		this.currentCountryName = currentCountryName;
+	}
+	
+    public int loadMaxYearForAny(String currentCountryName) {
+        return countryDAO.getMaxYearForAny(currentCountryName);
     }
 }

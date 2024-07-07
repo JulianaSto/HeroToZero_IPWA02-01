@@ -9,6 +9,7 @@ import jakarta.persistence.criteria.Root;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;
+import java.util.ArrayList;
 
 @Named
 @ApplicationScoped
@@ -36,16 +37,71 @@ public class CountryDAO {
         return query.getResultList();
     }*/
     
-  /* WORKS
-    public List<Country> getAllCountriesWithEmissions() {			
+  
+    public List<Country> getAllCountriesWithEmissions() {		//WORKS	
    
 	   //In dieser Methode verwenden wir JOIN FETCH, um sicherzustellen, dass die CO2Emissionen zusammen mit den Country-Objekten abgerufen werden. Dadurch erhalten wir eine Liste von Country-Objekten, von denen jedes eine Liste von CO2Emission-Objekten enthält.
         TypedQuery<Country> query = entityManager.createQuery(
-            "SELECT DISTINCT c, e JOIN FETCH c.co2Emissionen", Country.class);
+            "SELECT DISTINCT c FROM Country c ", Country.class);
         return query.getResultList();
     }
     
-    */
+    public List<Country> getFilteredCountries() {	//WORKS
+        TypedQuery<Country> query = entityManager.createQuery(
+                "SELECT c " +
+                "FROM Country c " +
+                "WHERE c.name = 'Germany'", Country.class);
+        return query.getResultList();
+    }
+    
+
+  /*public List<Object[]> getMaxYearAndCountryInfoForGermany() {	
+	   TypedQuery<Object[]> query = entityManager.createQuery(
+			    "SELECT c.countryCode, c.name FROM Country c WHERE c.name = 'Germany'", Object[].class);
+		
+    	        return query.getResultList();
+    	    }*/
+    
+    public float getMaxYearEmissionForGermany() {	//WORKS
+        List<Country> countr = new ArrayList();
+    	TypedQuery<Country> query = entityManager.createQuery(
+                "SELECT c " +
+                "FROM Country c " +
+                "WHERE c.name = 'Germany'", Country.class);
+        countr = query.getResultList();
+        int size = (countr.get(0).getCo2Emissionen().size())-1;
+        float i = countr.get(0).getCo2Emissionen().get(size).getEmission();
+        return i;
+    }
+    public int getMaxYearForGermany() {	//WORKS
+        List<Country> countr = new ArrayList();
+    	TypedQuery<Country> query = entityManager.createQuery(
+                "SELECT c " +
+                "FROM Country c " +
+                "WHERE c.name = 'Germany'", Country.class);
+        countr = query.getResultList();
+        int size = (countr.get(0).getCo2Emissionen().size())-1;
+        int i = countr.get(0).getCo2Emissionen().get(size).getYear();
+        return i;
+    }
+    public int getMaxYearForAny(String name) {	
+        List<Country> countr = new ArrayList();
+    	TypedQuery<Country> query = entityManager.createQuery(
+                "SELECT c " +
+                "FROM Country c " +
+                "WHERE c.name = :name", Country.class);
+    	query.setParameter("name", name);
+        countr = query.getResultList();
+        int size = (countr.get(0).getCo2Emissionen().size())-1;
+        int i = countr.get(0).getCo2Emissionen().get(size).getYear();
+        return i;
+    }
+
+
+
+
+    
+    
     public List<Country> getAllCountries() {
         TypedQuery<Country> query = entityManager.createQuery("SELECT c FROM Country c", Country.class);
         return query.getResultList();

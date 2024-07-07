@@ -3,7 +3,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class CO2Emission implements Serializable  {
+public class Co2Emission implements Serializable  {
 
     @Id
 	private int id;
@@ -17,11 +17,11 @@ public class CO2Emission implements Serializable  {
 
     
 	
-	public CO2Emission() {
+	public Co2Emission() {
 
     }
 
-    public CO2Emission (int year, float emission) {
+    public Co2Emission (int year, float emission) {
         this.year = year;
         this.emission = emission;
     }
