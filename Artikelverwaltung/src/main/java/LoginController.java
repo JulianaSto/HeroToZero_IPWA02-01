@@ -25,9 +25,12 @@ public class LoginController implements Serializable {
     CountryDAO countryDAO;
     
     @Inject
-    Co2EmissionDAO co2EmissionDAO;
+    Co2EmissionDAO co2EmissionDAO; 
     
     private String currentCountryName;
+   /*NEW*/
+    private int maxYear;
+
 
     // TODO: diese Wert sollte aus einer Konfiguration kommen.
     //       Jede Installation sollte eine Unterschiedlich haben.
@@ -126,7 +129,22 @@ public class LoginController implements Serializable {
 		this.currentCountryName = currentCountryName;
 	}
 	
-    public int loadMaxYearForAny(String currentCountryName) {
+  /*  public int getLoadMaxYearForAny() {
         return countryDAO.getMaxYearForAny(currentCountryName);
+    }JULI*/
+  
+	/*NEW*/
+    public int getMaxYear() {
+        return maxYear;
     }
+
+    public void setMaxYear(int maxYear) {
+        this.maxYear = maxYear;
+    }
+    
+    // Methode zum Laden des maximalen Jahres
+    public void loadMaxYearForAny() {
+        this.maxYear = countryDAO.getMaxYearForAny(currentCountryName);
+    }
+    /*END NEW*/
 }

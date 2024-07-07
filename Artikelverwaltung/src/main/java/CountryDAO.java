@@ -84,6 +84,8 @@ public class CountryDAO {
         int i = countr.get(0).getCo2Emissionen().get(size).getYear();
         return i;
     }
+    
+
     public int getMaxYearForAny(String name) {	
         List<Country> countr = new ArrayList();
     	TypedQuery<Country> query = entityManager.createQuery(
@@ -92,6 +94,11 @@ public class CountryDAO {
                 "WHERE c.name = :name", Country.class);
     	query.setParameter("name", name);
         countr = query.getResultList();
+        
+        if(countr.isEmpty()) {
+            return -1; // oder eine andere geeignete Fehlerbehandlung
+        }
+        
         int size = (countr.get(0).getCo2Emissionen().size())-1;
         int i = countr.get(0).getCo2Emissionen().get(size).getYear();
         return i;

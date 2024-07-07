@@ -163,16 +163,29 @@
 	
 
 	<h3>Benutzereingabe</h3>
-<h:form>
-    <h:inputText id="countryName" value="#{loginController.currentCountryName}" />
-     <h:outputText id="countryName" value="#{loginController.loadMaxYearForAny}" />
 
 
-</h:form>
 
 	<p id="fussnote">
 		Bitte beachten Sie: <br /> Diese Seite ist nur ein Entwurf!
 	</p>
+
+
+
+
+
+<h3>Benutzereingabe 2 NEW</h3>
+<h:form>
+    <h:panelGrid columns="2">
+        <h:outputLabel for="countryName" value="Ländername:" />
+        <h:inputText id="countryName" value="#{loginController.currentCountryName}" />
+        
+        <h:commandButton value="Max Year Laden" action="#{loginController.loadMaxYearForAny}" />
+        
+        <h:outputLabel for="maxYear" value="Max Jahr:" />
+        <h:outputText id="maxYear" value="#{loginController.maxYear}" />
+    </h:panelGrid>
+</h:form>
 
 </h:body>
 </html>
