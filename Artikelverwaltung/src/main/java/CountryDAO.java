@@ -32,10 +32,6 @@ public class CountryDAO {
         return entityManager.createQuery("SELECT a.countryCode FROM Country a", String.class).getResultList();
     }
     
-    /*public List<Object[]> getAllData() {
-        TypedQuery<Object[]> query = entityManager.createQuery("SELECT c, e FROM Country c JOIN c.co2Emissionen e", Object[].class);
-        return query.getResultList();
-    }*/
     
   
     public List<Country> getAllCountriesWithEmissions() {		//WORKS	
@@ -55,38 +51,10 @@ public class CountryDAO {
     }
     
 
-  /*public List<Object[]> getMaxYearAndCountryInfoForGermany() {	
-	   TypedQuery<Object[]> query = entityManager.createQuery(
-			    "SELECT c.countryCode, c.name FROM Country c WHERE c.name = 'Germany'", Object[].class);
-		
-    	        return query.getResultList();
-    	    }*/
     
-    public float getMaxYearEmissionForGermany() {	//WORKS
-        List<Country> countr = new ArrayList();
-    	TypedQuery<Country> query = entityManager.createQuery(
-                "SELECT c " +
-                "FROM Country c " +
-                "WHERE c.name = 'Germany'", Country.class);
-        countr = query.getResultList();
-        int size = (countr.get(0).getCo2Emissionen().size())-1;
-        float i = countr.get(0).getCo2Emissionen().get(size).getEmission();
-        return i;
-    }
-    public int getMaxYearForGermany() {	//WORKS
-        List<Country> countr = new ArrayList();
-    	TypedQuery<Country> query = entityManager.createQuery(
-                "SELECT c " +
-                "FROM Country c " +
-                "WHERE c.name = 'Germany'", Country.class);
-        countr = query.getResultList();
-        int size = (countr.get(0).getCo2Emissionen().size())-1;
-        int i = countr.get(0).getCo2Emissionen().get(size).getYear();
-        return i;
-    }
     
 
-    public int getMaxYearForAny(String name) throws CountryNotFoundException{	//WORKS, zusammenführen zu getMaxAllForAny
+    public int getMaxYearForAny(String name) throws CountryNotFoundException{	//WORKS
         List<Country> countr = new ArrayList();
     	TypedQuery<Country> query = entityManager.createQuery(
                 "SELECT c " +
@@ -104,7 +72,7 @@ public class CountryDAO {
         return i;
     }
     
-    public float getMaxYearEmissionForAny(String name) throws CountryNotFoundException{	//WORKS, zusammenführen zu getMaxAllForAny
+    public float getMaxYearEmissionForAny(String name) throws CountryNotFoundException{	//WORKS
         List<Country> countr = new ArrayList();
     	TypedQuery<Country> query = entityManager.createQuery(
                 "SELECT c " +
@@ -121,11 +89,6 @@ public class CountryDAO {
     }
     
 
-
-
-
-
-    
     
     public List<Country> getAllCountries() {
         TypedQuery<Country> query = entityManager.createQuery("SELECT c FROM Country c", Country.class);

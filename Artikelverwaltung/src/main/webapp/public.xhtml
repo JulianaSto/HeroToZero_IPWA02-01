@@ -47,40 +47,27 @@
 		<h:commandButton action="#{loginController.login}" value="Login" />
 	</h:form>
 
-	<h3>p:dataTable</h3>
-	<p:dataTable value="#{shop.sortiment}" var="artikel">
-		<f:facet name="header">
-                    CO2-Emissionen
-                </f:facet>
-		<p:column>
-			<f:facet name="header">Nr</f:facet>
-			<h:outputText value="#{artikel.nr}" />
-		</p:column>
-		<p:column>
-			<f:facet name="header">Name</f:facet>
-			<h:outputText value="#{artikel.name}" />
-		</p:column>
-		<p:column>
-			<f:facet name="header">Beschreibung</f:facet>
-			<h:outputText value="#{artikel.text}" />
-		</p:column>
-		<p:column sortBy="#{artikel.verfuegbarAb}" sortOrder="ascending">
-			<f:facet name="header">Verfügbar ab</f:facet>
-			<p:calendar value="#{artikel.verfuegbarAb}" />
-		</p:column>
-	</p:dataTable>
-
-	<h3>Country Codes</h3>
+	<h3>Benutzereingabe</h3>
 	<h:form>
-		<h:dataTable value="#{countryDAO.allIDs}" var="code">
-			<h:column>
-				<f:facet name="header">Country Code</f:facet>
-				<h:outputText value="#{code}" />
-			</h:column>
-		</h:dataTable>
+		<h:panelGrid columns="2">
+			<h:outputLabel for="countryName" value="Ländername:" />
+			<h:inputText id="countryName"
+				value="#{loginController.currentCountryName}" />
+
+			<h:commandButton value="Aktuellen Datensatz laden"
+				action="#{loginController.loadBoth}" />
+			<br />
+			<h:outputLabel for="maxYear" value="Jahr des aktuellen Datensatzes:" />
+			<h:outputText id="maxYear" value="#{loginController.maxYear}" />
+
+			<h:outputLabel for="maxYearEmission" value="Aktueller Emissionswert:" />
+			<h:outputText id="maxYearEmission"
+				value="#{loginController.maxYearEmission}" />
+		</h:panelGrid>
+		<h:messages globalOnly="true" layout="table"
+			style="color: red; font-weight: bold;" />	<!-- TO DO: css Klasse definieren! -->
 	</h:form>
 
-	<h3>Country Codes</h3>
 
 
 	<h3>Country and CO2 Emissions</h3>
@@ -120,76 +107,9 @@
 	</h:form>
 
 
-
-	<h3>Filtered Country and its CO2 Emissions</h3>
-	<h:form>
-		<h:dataTable value="#{countryDAO.filteredCountries}" var="countrys">
-			<h:column>
-				<f:facet name="header">Country ID</f:facet>
-				<h:outputText value="#{countrys.countryID}" />
-			</h:column>
-			<h:column>
-				<f:facet name="header">Country Name</f:facet>
-				<h:outputText value="#{countrys.name}" />
-			</h:column>
-			<h:column>
-				<f:facet name="header">Country Code</f:facet>
-				<h:outputText value="#{countrys.countryCode}" />
-			</h:column>
-			<h:column>
-				<f:facet name="header">Year</f:facet>
-				<h:dataTable value="#{countrys.co2Emissionen}" var="emi">
-					<h:column>
-						<h:outputText value="#{emi.year}" />
-					</h:column>
-				</h:dataTable>
-			</h:column>
-			<h:column>
-				<f:facet name="header">CO2 Emissions</f:facet>
-				<h:dataTable value="#{countrys.co2Emissionen}" var="emi">
-					<h:column>
-						<h:outputText value="#{emi.emission}" />
-					</h:column>
-				</h:dataTable>
-
-			</h:column>
-		</h:dataTable>
-	</h:form>
-
-	<h3>Filtered Country and its max Year</h3>
-	<h:outputText value="#{countryDAO.maxYearEmissionForGermany}" />
-	<br />
-	<h:outputText value="#{countryDAO.maxYearForGermany}" />
-	
-
-	<h3>Benutzereingabe</h3>
-
-
-
 	<p id="fussnote">
 		Bitte beachten Sie: <br /> Diese Seite ist nur ein Entwurf!
 	</p>
-
-
-
-
-
-<h3>Benutzereingabe 2 NEW</h3>
-<h:form>
-    <h:panelGrid columns="2">
-        <h:outputLabel for="countryName" value="Ländername:" />
-        <h:inputText id="countryName" value="#{loginController.currentCountryName}" />
-        
-        <h:commandButton value="Aktuellen Datensatz laden" action="#{loginController.loadBoth}" />  
-        <br />   
-        <h:outputLabel for="maxYear" value="Jahr des aktuellen Datensatzes:" />
-        <h:outputText id="maxYear" value="#{loginController.maxYear}" />
-        
-        <h:outputLabel for="maxYearEmission" value="Aktueller Emissionswert:" />
-        <h:outputText id="maxYearEmission" value="#{loginController.maxYearEmission}" />
-    </h:panelGrid>
-        <h:messages globalOnly="true" style="color: red;" />
-</h:form>
 
 </h:body>
 </html>

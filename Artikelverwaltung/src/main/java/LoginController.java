@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class LoginController implements Serializable {
 
     @Inject
-    Shop shop;
+    UserCredentials userCredentials;
 
     @Inject
     CurrentUser currentUser;
@@ -28,7 +28,6 @@ public class LoginController implements Serializable {
     Co2EmissionDAO co2EmissionDAO; 
     
     private String currentCountryName;
-   /*NEW*/
     private int maxYear;
     private float maxYearEmission;
 
@@ -92,18 +91,18 @@ public class LoginController implements Serializable {
 
     public void validateLogin(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String password = (String) value;
-        shop.validateUsernameAndPassword(currentUser, tempUsername, password, salt);
+        userCredentials.validateUsernameAndPassword(currentUser, tempUsername, password, salt);
         if (!currentUser.isValid())
-            throw new ValidatorException(new FacesMessage("Login falsch!"));
+            throw new ValidatorException(new FacesMessage("Login falsch!"));	//diese message wird im xhtml ausgegeben
     }
 
     public String login() {
-        if (currentUser.isAdmin()) {
+        if (currentUser.isPublisher()) {
             this.failureMessage = "";
-            return "backoffice.xhtml?faces-redirect=true";
-        } else if (currentUser.isClient()) {
+            return "publisher.xhtml?faces-redirect=true";
+        } else if (currentUser.isScientist()) {
             this.failureMessage = "";
-            return "shopclient.xhtml?faces-redirect=true";
+            return "scientist.xhtml?faces-redirect=true";
         } else {
             this.failureMessage = "Passwort und Benutzername nicht erkannt.";
             return "";
@@ -115,7 +114,8 @@ public class LoginController implements Serializable {
             System.err.println("Usage: java LoginController user pass");
             System.exit(1);
         }
-        System.out.println(Shop.hashPassword(args[0], args[1], salt));
+        System.out.println(UserCredentials.hashPassword(args[0], args[1], salt));
+
     }
 
 
@@ -130,11 +130,7 @@ public class LoginController implements Serializable {
 		this.currentCountryName = currentCountryName;
 	}
 	
-  /*  public int getLoadMaxYearForAny() {
-        return countryDAO.getMaxYearForAny(currentCountryName);
-    }JULI*/
-  
-	/*NEW*/
+
     public int getMaxYear() {
         return maxYear;
     }
@@ -143,7 +139,7 @@ public class LoginController implements Serializable {
         this.maxYear = maxYear;
     }
     
-    // Methode zum Laden des maximalen Jahres
+
     public void loadMaxYearForAny() throws CountryNotFoundException {
         this.maxYear = countryDAO.getMaxYearForAny(currentCountryName);
     }
@@ -160,6 +156,8 @@ public class LoginController implements Serializable {
         this.maxYearEmission = countryDAO.getMaxYearEmissionForAny(currentCountryName);
     }
     public void loadBoth() {
+    	this.maxYearEmission = 0; //Reset
+        this.maxYear = 0;
     	try {
     	this.maxYearEmission = countryDAO.getMaxYearEmissionForAny(currentCountryName);
         this.maxYear = countryDAO.getMaxYearForAny(currentCountryName);
@@ -168,5 +166,5 @@ public class LoginController implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Das angegebene Land konnte nicht gefunden werden.", e.getMessage()));
         }
     }
-	/*END NEW*/
+
 }
