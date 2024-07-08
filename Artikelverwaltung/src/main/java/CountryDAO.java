@@ -50,8 +50,6 @@ public class CountryDAO {
         return query.getResultList();
     }
     
-
-    
     
 
     public int getMaxYearForAny(String name) throws CountryNotFoundException{	//WORKS
@@ -88,13 +86,21 @@ public class CountryDAO {
         return i;
     }
     
-
-    
     public List<Country> getAllCountries() {
         TypedQuery<Country> query = entityManager.createQuery("SELECT c FROM Country c", Country.class);
         return query.getResultList();
     }
-
+    
+    //Aufgabe 2
+    
+    public List<Country> getCountry(String name){	
+        TypedQuery<Country> query = entityManager.createQuery(
+                "SELECT c " +
+                "FROM Country c " +
+                "WHERE c.name = :name", Country.class);
+        return query.getResultList();
+    }
+    
    
 
 }

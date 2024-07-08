@@ -50,4 +50,5 @@ public class Country implements Serializable {
     public void addCo2Emission(Co2Emission co2Emission) {
     	co2Emissionen.add(co2Emission);
     }
+    
 }

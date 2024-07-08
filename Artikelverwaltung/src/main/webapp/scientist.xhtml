@@ -1,24 +1,57 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-  <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
-  <title>Artikelverwaltung</title>
-  <h:outputText value="#{loginController.checkLogin()}"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+	<title>Artikelverwaltung</title>
+	<h:outputText value="#{loginController.checkLogin()}" />
 </h:head>
 <h:body>
-  <p><img id="kopf_links" src="logo.jpg" width="250" alt="Logo"/></p>
-  <p id="kopf_rechts">
-    <h:outputText value="#{anschrift.name}"/>
-    <br/>
-    <h:outputText value="#{anschrift.strasse} #{anschrift.hausnummer}"/>
-    <br/>
-    <h:outputText value="#{anschrift.plz} #{anschrift.ort}"/>
-  </p>
-  <h1>Scientist-Seite</h1>
+	<p>
+		<img id="kopf_links" src="logo.jpg" width="250" alt="Logo" />
+	</p>
+	<p id="kopf_rechts">
+		<h:outputText value="#{anschrift.name}" />
+		<br />
+		<h:outputText value="#{anschrift.strasse} #{anschrift.hausnummer}" />
+		<br />
+		<h:outputText value="#{anschrift.plz} #{anschrift.ort}" />
+	</p>
+	<h1>Scientist-Seite</h1>
 
-  <p id="fussnote">Bitte beachten Sie: <br/> Diese Seite ist nur ein Entwurf!</p>
+	<!-- Tabelle zum Einfügen neuer Werte -->
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:outputLabel for="name" value="Country:" />
+			<h:inputText id="name"
+				value="#{publisherController.countryToBeChanged}" />
+
+			<h:commandButton value="Add Emission for this country"
+				action="#{publisherController.searchCountry}" />
+			
+
+			</h:panelGrid>
+			
+			<!-- Output-Test -->
+			
+		<h:dataTab^^le value="#{publisherController.aktuelleCountry}"
+			var="countryTest">
+			<h:column>
+				<f:facet name="header">Country ID</f:facet>
+				<h:outputText value="#{countryTest.countryID}" />
+			</h:column>
+		</h:dataTable>
+	
+			
+	</h:form>
+
+
+
+
+	<p id="fussnote">
+		Bitte beachten Sie: <br /> Diese Seite ist nur ein Entwurf!
+	</p>
 </h:body>
 </html>
