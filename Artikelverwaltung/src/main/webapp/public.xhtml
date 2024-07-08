@@ -180,11 +180,15 @@
         <h:outputLabel for="countryName" value="Ländername:" />
         <h:inputText id="countryName" value="#{loginController.currentCountryName}" />
         
-        <h:commandButton value="Max Year Laden" action="#{loginController.loadMaxYearForAny}" />
-        
-        <h:outputLabel for="maxYear" value="Max Jahr:" />
+        <h:commandButton value="Aktuellen Datensatz laden" action="#{loginController.loadBoth}" />  
+        <br />   
+        <h:outputLabel for="maxYear" value="Jahr des aktuellen Datensatzes:" />
         <h:outputText id="maxYear" value="#{loginController.maxYear}" />
+        
+        <h:outputLabel for="maxYearEmission" value="Aktueller Emissionswert:" />
+        <h:outputText id="maxYearEmission" value="#{loginController.maxYearEmission}" />
     </h:panelGrid>
+        <h:messages globalOnly="true" style="color: red;" />
 </h:form>
 
 </h:body>

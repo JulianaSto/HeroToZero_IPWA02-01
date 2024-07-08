@@ -30,6 +30,7 @@ public class LoginController implements Serializable {
     private String currentCountryName;
    /*NEW*/
     private int maxYear;
+    private float maxYearEmission;
 
 
     // TODO: diese Wert sollte aus einer Konfiguration kommen.
@@ -143,8 +144,29 @@ public class LoginController implements Serializable {
     }
     
     // Methode zum Laden des maximalen Jahres
-    public void loadMaxYearForAny() {
+    public void loadMaxYearForAny() throws CountryNotFoundException {
         this.maxYear = countryDAO.getMaxYearForAny(currentCountryName);
     }
-    /*END NEW*/
+    
+
+	public float getMaxYearEmission() {
+		return maxYearEmission;
+	}
+
+	public void setMaxYearEmission(float maxYearEmission) {
+		this.maxYearEmission = maxYearEmission;
+	}
+    public void loadMaxYearEmissionForAny() throws CountryNotFoundException {
+        this.maxYearEmission = countryDAO.getMaxYearEmissionForAny(currentCountryName);
+    }
+    public void loadBoth() {
+    	try {
+    	this.maxYearEmission = countryDAO.getMaxYearEmissionForAny(currentCountryName);
+        this.maxYear = countryDAO.getMaxYearForAny(currentCountryName);
+    	}catch (CountryNotFoundException e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Das angegebene Land konnte nicht gefunden werden.", e.getMessage()));
+        }
+    }
+	/*END NEW*/
 }

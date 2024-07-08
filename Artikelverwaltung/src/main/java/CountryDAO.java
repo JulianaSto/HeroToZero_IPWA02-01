@@ -86,7 +86,7 @@ public class CountryDAO {
     }
     
 
-    public int getMaxYearForAny(String name) {	
+    public int getMaxYearForAny(String name) throws CountryNotFoundException{	//WORKS, zusammenführen zu getMaxAllForAny
         List<Country> countr = new ArrayList();
     	TypedQuery<Country> query = entityManager.createQuery(
                 "SELECT c " +
@@ -96,13 +96,31 @@ public class CountryDAO {
         countr = query.getResultList();
         
         if(countr.isEmpty()) {
-            return -1; // oder eine andere geeignete Fehlerbehandlung
+        	throw new CountryNotFoundException("Land nicht gefunden: " + name);
         }
         
         int size = (countr.get(0).getCo2Emissionen().size())-1;
         int i = countr.get(0).getCo2Emissionen().get(size).getYear();
         return i;
     }
+    
+    public float getMaxYearEmissionForAny(String name) throws CountryNotFoundException{	//WORKS, zusammenführen zu getMaxAllForAny
+        List<Country> countr = new ArrayList();
+    	TypedQuery<Country> query = entityManager.createQuery(
+                "SELECT c " +
+                "FROM Country c " +
+                "WHERE c.name = :name", Country.class);
+    	query.setParameter("name", name);
+    	countr = query.getResultList();
+        if(countr.isEmpty()) {
+        	throw new CountryNotFoundException("Land nicht gefunden: " + name);
+        }
+        int size = (countr.get(0).getCo2Emissionen().size())-1;
+        float i = countr.get(0).getCo2Emissionen().get(size).getEmission();
+        return i;
+    }
+    
+
 
 
 
