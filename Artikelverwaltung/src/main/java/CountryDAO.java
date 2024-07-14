@@ -98,8 +98,23 @@ public class CountryDAO {
                 "SELECT c " +
                 "FROM Country c " +
                 "WHERE c.name = :name", Country.class);
+        query.setParameter("name", name);  // Parameter setzen
         return query.getResultList();
     }
+    
+    /*public void update(Country country) {		//Wird offensichtlich nicht benötigt
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(country);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }*/
     
    
 

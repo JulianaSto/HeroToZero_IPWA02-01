@@ -6,6 +6,7 @@ import java.io.Serializable;
 public class Co2Emission implements Serializable  {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private int year;
     private float emission;
@@ -46,8 +47,14 @@ public class Co2Emission implements Serializable  {
 		return emission;
 	}
 
-	public void setEmission(int emission) {
+	public void setEmission(float emission) {
 		this.emission = emission;
+	}
+	public void setCountry(Country country) {
+	    this.country = country;
+	    if (!country.getCo2Emissionen().contains(this)) {
+	        country.addCo2Emission(this);
+	    }
 	}
     
     
