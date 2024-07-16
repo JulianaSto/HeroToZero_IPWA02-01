@@ -34,13 +34,33 @@ public class CountryDAO {
     
     
   
-    public List<Country> getAllCountriesWithEmissions() {		//WORKS	
+    public List<Country> getApprovalCountriesWithEmissions() {		
    
-	   //In dieser Methode verwenden wir JOIN FETCH, um sicherzustellen, dass die CO2Emissionen zusammen mit den Country-Objekten abgerufen werden. Dadurch erhalten wir eine Liste von Country-Objekten, von denen jedes eine Liste von CO2Emission-Objekten enthält.
+	   //Nur die Countries zurückgeben, bei denen ein Approval für eine neue Emission vorliegt
+        TypedQuery<Country> query = entityManager.createQuery(
+            "SELECT DISTINCT c FROM Country c ", Country.class);
+        List<Country> tempCountries = query.getResultList();
+        List<Country> resultCountries = new ArrayList<>();
+    	for (Country c : tempCountries) {
+    		List<Co2Emission> tempCo2Emissionen = c.getCo2Emissionen();
+    		for (Co2Emission e : tempCo2Emissionen) {
+    	   		if (e.isApproved() == false) {
+    	   			resultCountries.add(c);
+    	   			break;
+    	   		}
+    		}
+    	}
+    	return resultCountries;
+    }
+    
+    public List<Country> getAllCountriesWithEmissions() {		
+    	   
         TypedQuery<Country> query = entityManager.createQuery(
             "SELECT DISTINCT c FROM Country c ", Country.class);
         return query.getResultList();
     }
+    
+
     
     public List<Country> getFilteredCountries() {	//WORKS
         TypedQuery<Country> query = entityManager.createQuery(
@@ -65,8 +85,8 @@ public class CountryDAO {
         	throw new CountryNotFoundException("Land nicht gefunden: " + name);
         }
         
-        int size = (countr.get(0).getCo2Emissionen().size())-1;
-        int i = countr.get(0).getCo2Emissionen().get(size).getYear();
+        int size = (countr.get(0).getApprovedCo2Emissionen().size())-1;
+        int i = countr.get(0).getApprovedCo2Emissionen().get(size).getYear();
         return i;
     }
     
@@ -81,8 +101,8 @@ public class CountryDAO {
         if(countr.isEmpty()) {
         	throw new CountryNotFoundException("Land nicht gefunden: " + name);
         }
-        int size = (countr.get(0).getCo2Emissionen().size())-1;
-        float i = countr.get(0).getCo2Emissionen().get(size).getEmission();
+        int size = (countr.get(0).getApprovedCo2Emissionen().size())-1;
+        float i = countr.get(0).getApprovedCo2Emissionen().get(size).getEmission();
         return i;
     }
     

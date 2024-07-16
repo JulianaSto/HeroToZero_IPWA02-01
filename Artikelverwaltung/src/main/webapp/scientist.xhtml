@@ -22,7 +22,8 @@
 	</p>
 	<h1>Scientist-Seite</h1>
 	<h:messages globalOnly="true" layout="table"
-		style="color: green; font-weight: bold;" />
+		style="font-weight: bold; font-size: 1.2em;" />
+
 
 	<!-- Tabelle zum Einfügen neuer Werte-->
 	<h:form>
@@ -60,6 +61,15 @@
 				</h:dataTable>
 
 			</h:column>
+			<h:column>
+				<f:facet name="header">Approved</f:facet>
+				<h:dataTable value="#{countryTest.co2Emissionen}" var="emi">
+					<h:column>
+						<h:outputText value="#{emi.approved}" />
+					</h:column>
+				</h:dataTable>
+
+			</h:column>
 		</h:dataTable>
 
 		<!-- ENDE Show Emission for this country Output-Test-->
@@ -69,8 +79,9 @@
 		<h:panelGrid id="inputTable" columns="2">
 			<h:outputLabel for="year" value="Year:" />
 			<h:inputText id="year" value="#{publisherController.newEmissionYear}"
-				required="true">
-				<f:validator validatorId="notEmptyValidator" />
+				required="true"
+				converterMessage="Year must be an integer. Example: 2024">
+
 			</h:inputText>
 
 			<h:message for="year" styleClass="error" />
@@ -78,8 +89,9 @@
 
 			<h:outputLabel for="emission" value="CO2 Emission:" />
 			<h:inputText id="emission"
-				value="#{publisherController.newEmissionValue}" required="true">
-				<f:validator validatorId="notEmptyValidator" />
+				value="#{publisherController.newEmissionValue}" required="true"
+				converterMessage="CO2 emission must be a decimal number. Example: 1.2">
+
 			</h:inputText>
 			<h:message for="emission" styleClass="error" />
 			<br />

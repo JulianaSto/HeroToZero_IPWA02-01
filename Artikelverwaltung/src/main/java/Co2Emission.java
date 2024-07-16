@@ -10,6 +10,7 @@ public class Co2Emission implements Serializable  {
 	private int id;
 	private int year;
     private float emission;
+    private boolean approved; 
     
     @ManyToOne
     @JoinColumn(name = "countryID", referencedColumnName = "countryID")	//name = "countryID": Dies ist der Name der Spalte in der Tabelle CO2Emission, die den Fremdschlüssel zur Country-Tabelle darstellt. referencedColumnName = "countryID": Dies ist der Name der Spalte in der Tabelle Country, auf die die Spalte countryID in der Tabelle CO2Emission verweist.
@@ -26,6 +27,7 @@ public class Co2Emission implements Serializable  {
         this.year = year;
         this.emission = emission;
     }
+
 
 	public int getId() {
 		return id;
@@ -56,6 +58,19 @@ public class Co2Emission implements Serializable  {
 	        country.addCo2Emission(this);
 	    }
 	}
+
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
+
+
+
+
+
     
     
 }

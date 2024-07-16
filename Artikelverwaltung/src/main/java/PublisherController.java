@@ -40,9 +40,13 @@ public class PublisherController implements Serializable {
 	List<Country> countryList = new ArrayList<>();
 
 	public void searchCountry() {
-		this.countryList = countryDAO.getCountry(countryToBeChanged); // Zugriff auf das Country-Objekt. Im nächsten
-																		// Schritt müssen CO2-Emissionen hinzugefügt
-																		// werden.
+		this.countryList = countryDAO.getCountry(countryToBeChanged); // Zugriff auf das Country-Objekt. 
+	    if (countryList == null || countryList.isEmpty()) {
+	        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+	                                            "No countries found for the specified criteria.", 
+	                                            null);
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	    }
 	}
 
 	public List<Country> getAktuelleCountry() { // nur für Testausgabe
@@ -79,6 +83,7 @@ public class PublisherController implements Serializable {
 			Country country = countryList.get(0); // Assuming we want to add the emission to the first country in the
 													// list
 			Co2Emission newEmission = new Co2Emission(newEmissionYear, newEmissionValue);
+			newEmission.setApproved(false);
 			
 			newEmission.setCountry(country); // Set the country for the new emission
 			country.addCo2Emission(newEmission); // Add the new emission to the country
@@ -110,6 +115,7 @@ public class PublisherController implements Serializable {
                 if (existingEmission != null) {
                     existingEmission.setYear(emission.getYear());
                     existingEmission.setEmission(emission.getEmission());
+                    existingEmission.setApproved(false);
 
                     // Aktualisierung der Emission
                     co2EmissionDAO.update(existingEmission);

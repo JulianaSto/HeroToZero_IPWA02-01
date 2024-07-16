@@ -46,6 +46,24 @@ public class Country implements Serializable {
     public List<Co2Emission> getCo2Emissionen() {
         return co2Emissionen;
     }
+    public List<Co2Emission> getApprovedCo2Emissionen() {	
+    	 List<Co2Emission> modifiedCo2Emissionen = new ArrayList<>();
+    	for (Co2Emission emission : co2Emissionen) {
+    		if (emission.isApproved() == true) {
+    			modifiedCo2Emissionen.add(emission);
+    		}
+    	}
+    	return modifiedCo2Emissionen;
+    }
+    public List<Co2Emission> getNotApprovedCo2Emissionen() {	//NEU
+   	 List<Co2Emission> modifiedCo2Emissionen = new ArrayList<>();
+   	for (Co2Emission emission : co2Emissionen) {
+   		if (emission.isApproved() == false) {
+   			modifiedCo2Emissionen.add(emission);
+   		}
+   	}
+   	return modifiedCo2Emissionen;
+   }
 
     public void addCo2Emission(Co2Emission co2Emission) {
     	co2Emissionen.add(co2Emission);

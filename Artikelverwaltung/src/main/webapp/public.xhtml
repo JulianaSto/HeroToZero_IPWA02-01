@@ -88,7 +88,7 @@
 			</h:column>
 			<h:column>
 				<f:facet name="header">Year</f:facet>
-				<h:dataTable value="#{countrys.co2Emissionen}" var="emi">
+				<h:dataTable value="#{countrys.approvedCo2Emissionen}" var="emi">
 					<h:column>
 						<h:outputText value="#{emi.year}" />
 					</h:column>
@@ -96,7 +96,7 @@
 			</h:column>
 			<h:column>
 				<f:facet name="header">CO2 Emissions</f:facet>
-				<h:dataTable value="#{countrys.co2Emissionen}" var="emi">
+				<h:dataTable value="#{countrys.approvedCo2Emissionen}" var="emi">
 					<h:column>
 						<h:outputText value="#{emi.emission}" />
 					</h:column>

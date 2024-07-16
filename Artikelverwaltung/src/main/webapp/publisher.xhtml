@@ -1,23 +1,76 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css"/>
-    <title>Artikelverwaltung</title>
-    <h:outputText value="#{loginController.checkLogin()}"/>
+	<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+	<title>Artikelverwaltung</title>
+	<h:outputText value="#{loginController.checkLogin()}" />
 </h:head>
 <h:body>
-    <p><img id="kopf_links" src="logo.jpg" width="250" alt="Logo"/></p>
-    <p id="kopf_rechts">
-        <h:outputText value="#{anschrift.name}"/>
-        <br/>
-        <h:outputText value="#{anschrift.strasse} #{anschrift.hausnummer}"/>
-        <br/>
-        <h:outputText value="#{anschrift.plz} #{anschrift.ort}"/>
-    </p>
-    <h1>Publisher-Seite</h1>
+	<p>
+		<img id="kopf_links" src="logo.jpg" width="250" alt="Logo" />
+	</p>
+	<p id="kopf_rechts">
+		<h:outputText value="#{anschrift.name}" />
+		<br />
+		<h:outputText value="#{anschrift.strasse} #{anschrift.hausnummer}" />
+		<br />
+		<h:outputText value="#{anschrift.plz} #{anschrift.ort}" />
+	</p>
+	<h1>Publisher-Seite</h1>
+		<h3>Changes to be approved:</h3>
+	<h:form>
+		<h:dataTable value="#{countryDAO.approvalCountriesWithEmissions}"
+			var="countrys">
+			<h:column>
+				<f:facet name="header">Country ID</f:facet>
+				<h:outputText value="#{countrys.countryID}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Country Name</f:facet>
+				<h:outputText value="#{countrys.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Country Code</f:facet>
+				<h:outputText value="#{countrys.countryCode}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Year</f:facet>
+				<h:dataTable value="#{countrys.notApprovedCo2Emissionen}" var="emi">
+					<h:column>
+						<h:outputText value="#{emi.year}" />
+					</h:column>
+				</h:dataTable>
+			</h:column>
+			<h:column>
+				<f:facet name="header">CO2 Emissions</f:facet>
+				<h:dataTable value="#{countrys.notApprovedCo2Emissionen}" var="emi">
+					<h:column>
+						<h:outputText value="#{emi.emission}" />
+					</h:column>
+				</h:dataTable>
+
+			</h:column>
+				<h:column>
+				<f:facet name="header">Approval</f:facet>
+				<h:dataTable value="#{countrys.notApprovedCo2Emissionen}" var="emi">
+					<h:column>
+						<h:selectOneMenu id="appro" value="#{emi.approved}">
+							<f:selectItem itemValue="" itemLabel="Select" noSelectionOption="true" />
+							<f:selectItem itemValue="true" itemLabel="True" />
+							<f:selectItem itemValue="false" itemLabel="False" />
+						</h:selectOneMenu>
+					</h:column>
+					<h:column>
+						<h:commandButton value="Approve" action="#{bean.approve(emi)}" rendered="#{emi.approved == false}" />
+					</h:column>
+				</h:dataTable>
+			</h:column>
+		</h:dataTable>
+	</h:form>
+
 
 </h:body>
 </html>

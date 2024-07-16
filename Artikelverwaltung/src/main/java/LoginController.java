@@ -163,7 +163,7 @@ public class LoginController implements Serializable {
         this.maxYear = countryDAO.getMaxYearForAny(currentCountryName);
     	}catch (CountryNotFoundException e) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Das angegebene Land konnte nicht gefunden werden.", e.getMessage()));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "The specified country could not be found.", e.getMessage()));
         }
     }
 
