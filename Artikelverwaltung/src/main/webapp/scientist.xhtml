@@ -5,24 +5,14 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
 	<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
-	<title>Artikelverwaltung</title>
+	<title>Like Hero To Zero: Scientist</title>
 	<h:outputText value="#{loginController.checkLogin()}" />
 </h:head>
 <h:body>
 
-	<p>
-		<img id="kopf_links" src="logo.jpg" width="250" alt="Logo" />
-	</p>
-	<p id="kopf_rechts">
-		<h:outputText value="#{anschrift.name}" />
-		<br />
-		<h:outputText value="#{anschrift.strasse} #{anschrift.hausnummer}" />
-		<br />
-		<h:outputText value="#{anschrift.plz} #{anschrift.ort}" />
-	</p>
-	<h1>Scientist-Seite</h1>
+	<h1>Like Hero To Zero: Scientist</h1>
 	<h:messages globalOnly="true" layout="table"
-		style="font-weight: bold; font-size: 1.2em;" />
+		style="font-weight: bold; font-size: 1.2em; color:green" />
 
 
 	<!-- Tabelle zum Einfügen neuer Werte-->
@@ -30,47 +20,48 @@
 		<h:panelGrid columns="2">
 			<h:outputLabel for="name" value="Set Country to change/add data:" />
 			<h:inputText id="name"
-				value="#{publisherController.countryToBeChanged}" />
+				value="#{scientistController.countryToBeChanged}" />
 			<h:commandButton value="Load Country"
-				action="#{publisherController.loadCountry}"
+				action="#{scientistController.loadCountry}"
 				update=":form:emissionTable :form:messages" />
 		</h:panelGrid>
 		<br />
+		<br />
 		<!-- START Show Emission for this country Output-Test-->
 
-		<h:dataTable id="emissionTable"
-			value="#{publisherController.aktuelleCountry}" var="countryTest">
-			<h:column>
-				<f:facet name="header">Country</f:facet>
+		<p:dataTable id="emissionTable"
+			value="#{scientistController.aktuelleCountry}" var="countryTest">
+			<p:column>
+				<f:facet name="header" style="text-align:center">Country</f:facet>
 				<h:outputText value="#{countryTest.name}" />
-			</h:column>
-			<h:column>
+			</p:column>
+			<p:column >
 				<f:facet name="header">Year</f:facet>
-				<h:dataTable value="#{countryTest.co2Emissionen}" var="emi">
-					<h:column>
+				<p:dataTable value="#{countryTest.co2Emissionen}" var="emi" styleClass="noHeader">
+					<p:column>
 						<h:outputText value="#{emi.year}" />
-					</h:column>
-				</h:dataTable>
-			</h:column>
-			<h:column>
+					</p:column>
+				</p:dataTable>
+			</p:column>
+			<p:column>
 				<f:facet name="header">CO2 Emissions</f:facet>
-				<h:dataTable value="#{countryTest.co2Emissionen}" var="emi">
-					<h:column>
+				<p:dataTable value="#{countryTest.co2Emissionen}" var="emi" styleClass="noHeader">
+					<p:column>
 						<h:outputText value="#{emi.emission}" />
-					</h:column>
-				</h:dataTable>
+					</p:column>
+				</p:dataTable>
 
-			</h:column>
-			<h:column>
+			</p:column>
+			<p:column>
 				<f:facet name="header">Approved</f:facet>
-				<h:dataTable value="#{countryTest.co2Emissionen}" var="emi">
-					<h:column>
+				<p:dataTable value="#{countryTest.co2Emissionen}" var="emi" styleClass="noHeader">
+					<p:column>
 						<h:outputText value="#{emi.approved}" />
-					</h:column>
-				</h:dataTable>
+					</p:column>
+				</p:dataTable>
 
-			</h:column>
-		</h:dataTable>
+			</p:column>
+		</p:dataTable>
 
 		<!-- ENDE Show Emission for this country Output-Test-->
 
@@ -78,7 +69,7 @@
 		<h3>Add new data set:</h3>
 		<h:panelGrid id="inputTable" columns="2">
 			<h:outputLabel for="year" value="Year:" />
-			<h:inputText id="year" value="#{publisherController.newEmissionYear}"
+			<h:inputText id="year" value="#{scientistController.newEmissionYear}"
 				required="true"
 				converterMessage="Year must be an integer. Example: 2024">
 
@@ -89,7 +80,7 @@
 
 			<h:outputLabel for="emission" value="CO2 Emission:" />
 			<h:inputText id="emission"
-				value="#{publisherController.newEmissionValue}" required="true"
+				value="#{scientistController.newEmissionValue}" required="true"
 				converterMessage="CO2 emission must be a decimal number. Example: 1.2">
 
 			</h:inputText>
@@ -97,45 +88,56 @@
 			<br />
 
 			<h:commandButton value="Add Emission"
-				action="#{publisherController.addEmission}"
+				action="#{scientistController.addEmission}"
 				update=":form:emissionTable :form:emissionTable2 :form:messages" />
 
 		</h:panelGrid>
+		<br />
 
 		<!-- ENDE Benutzereingabe neue Emission -->
 
 
 		<!-- START Emission bearbeiten -->
 		<h3>Change existent data set:</h3>
-		<h:dataTable id="emissionTable2"
-			value="#{publisherController.aktuelleCountry}" var="countryTest">
-			<h:column>
+		<p:dataTable id="emissionTable2"
+			value="#{scientistController.aktuelleCountry}" var="countryTest">
+			<p:column>
 				<f:facet name="header">Country</f:facet>
 				<h:outputText value="#{countryTest.name}" />
-			</h:column>
-			<h:column>
+			</p:column>
+			<p:column>
 				<f:facet name="header">Year</f:facet>
-				<h:dataTable value="#{countryTest.co2Emissionen}" var="emi">
-					<h:column>
-						<h:inputText value="#{emi.year}" />
-					</h:column>
-				</h:dataTable>
-			</h:column>
-			<h:column>
-				<f:facet name="header">CO2 Emissions</f:facet>
-				<h:dataTable value="#{countryTest.co2Emissionen}" var="emi">
-					<h:column>
-						<h:inputText value="#{emi.emission}" />
+				<p:dataTable value="#{countryTest.co2Emissionen}" var="emi" styleClass="noHeader">
+					<p:column>
+						<p:inputText id="year2" style="text-align:center" value="#{emi.year}" converterMessage="Year must be an integer. Example: 2024"/>
+						
+						<h:message for="year2" styleClass="error" />
+					</p:column>
+				</p:dataTable>
+			</p:column>
+			<p:column>
+				<f:facet name="header">CO2 Emission (metric tons per capita)</f:facet>
+				<p:dataTable value="#{countryTest.co2Emissionen}" var="emi" styleClass="noHeader" >
+					<p:column>
+						<p:inputText id="emission2" style="text-align:center" value="#{emi.emission}" converterMessage="CO2 emission must be a decimal number. Example: 1.2" />
+						
 						<h:commandButton value="Save Changes"
-							actionListener="#{publisherController.changeEmission(emi)}"
+							actionListener="#{scientistController.changeEmission(emi)}"
 							update=":form:emissionTable :form:messages">
 						</h:commandButton>
-					</h:column>
-				</h:dataTable>
+						<br />
+						<h:message for="emission2" styleClass="error" />
+						
+						
+					</p:column>
+				</p:dataTable>
 
-			</h:column>
+			</p:column>
 
-		</h:dataTable>
+
+		</p:dataTable>
+					
+		
 
 	</h:form>
 

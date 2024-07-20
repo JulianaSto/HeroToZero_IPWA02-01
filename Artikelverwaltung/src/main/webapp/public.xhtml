@@ -5,24 +5,15 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
 	<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
-	<title>Zander Filz Shop: Login</title>
+	<title>Like Hero To Zero: Homepage</title>
 </h:head>
 <h:body>
-	<p>
-		<img id="kopf_links" src="logo.jpg" width="250" alt="Logo" />
-	</p>
-	<p id="kopf_rechts">
-		<h:outputText value="#{anschrift.name}" />
-		<br />
-		<h:outputText value="#{anschrift.strasse} #{anschrift.hausnummer}" />
-		<br />
-		<h:outputText value="#{anschrift.plz} #{anschrift.ort}" />
-	</p>
-	<h1>Zander Filz Shop: Login</h1>
-	<h:form>
 
+	<h1>Like Hero To Zero: Homepage</h1>
+	<br />
+	<h:form>
 		<p>
-			<h:outputLabel value="Benutzername:" for="user" />
+			<h:outputLabel value="Username:" for="user" />
 			<h:inputText id="user" value="#{loginController.user}" size="40"
 				required="true">
 				<f:event type="postValidate"
@@ -33,7 +24,7 @@
 
 		<p>
 
-			<h:outputLabel value="Passwort: " for="password" />
+			<h:outputLabel value="Password: " for="password" />
 			<h:inputSecret id="password" value="#{loginController.password}"
 				size="40" required="true"
 				validator="#{loginController.validateLogin}" />
@@ -46,64 +37,65 @@
 		</p>
 		<h:commandButton action="#{loginController.login}" value="Login" />
 	</h:form>
+	<br />
 
-	<h3>Benutzereingabe</h3>
+	<h3>Select country to show most recent data:</h3>
 	<h:form>
 		<h:panelGrid columns="2">
-			<h:outputLabel for="countryName" value="Ländername:" />
+			<h:outputLabel for="countryName" value="Country:" />
 			<h:inputText id="countryName"
 				value="#{loginController.currentCountryName}" />
 
-			<h:commandButton value="Aktuellen Datensatz laden"
+			<h:commandButton value="Load latest data set"
 				action="#{loginController.loadBoth}" />
 			<br />
-			<h:outputLabel for="maxYear" value="Jahr des aktuellen Datensatzes:" />
+			<h:outputLabel for="maxYear" value="Year of most recent data set:" />
 			<h:outputText id="maxYear" value="#{loginController.maxYear}" />
 
-			<h:outputLabel for="maxYearEmission" value="Aktueller Emissionswert:" />
+			<h:outputLabel for="maxYearEmission" value="Most recent emission:" />
 			<h:outputText id="maxYearEmission"
 				value="#{loginController.maxYearEmission}" />
 		</h:panelGrid>
 		<h:messages globalOnly="true" layout="table"
 			style="color: red; font-weight: bold;" />	<!-- TO DO: css Klasse definieren! -->
 	</h:form>
+	<br />
 
 
-
-	<h3>Country and CO2 Emissions</h3>
+	<h3>All CO2 Emissions:</h3>
 	<h:form>
-		<h:dataTable value="#{countryDAO.allCountriesWithEmissions}"
+		<p:dataTable value="#{countryDAO.allCountriesWithEmissions}"
 			var="countrys">
-			<h:column>
+			<p:column>
 				<f:facet name="header">Country ID</f:facet>
 				<h:outputText value="#{countrys.countryID}" />
-			</h:column>
-			<h:column>
+			</p:column>
+			<p:column>
 				<f:facet name="header">Country Name</f:facet>
 				<h:outputText value="#{countrys.name}" />
-			</h:column>
-			<h:column>
+			</p:column>
+			<p:column>
 				<f:facet name="header">Country Code</f:facet>
 				<h:outputText value="#{countrys.countryCode}" />
-			</h:column>
-			<h:column>
+			</p:column>
+			<p:column>
 				<f:facet name="header">Year</f:facet>
-				<h:dataTable value="#{countrys.approvedCo2Emissionen}" var="emi">
-					<h:column>
+				<p:dataTable value="#{countrys.approvedCo2Emissionen}" var="emi" styleClass="noHeader">
+					<p:column>
 						<h:outputText value="#{emi.year}" />
-					</h:column>
-				</h:dataTable>
-			</h:column>
-			<h:column>
-				<f:facet name="header">CO2 Emissions</f:facet>
-				<h:dataTable value="#{countrys.approvedCo2Emissionen}" var="emi">
-					<h:column>
+					</p:column>
+				</p:dataTable>
+			</p:column>
+			<p:column>
+				<f:facet name="header">CO2 Emission (metric tons per capita)</f:facet>
+				<p:dataTable value="#{countrys.approvedCo2Emissionen}" var="emi" styleClass="noHeader">
+					<p:column>
 						<h:outputText value="#{emi.emission}" />
-					</h:column>
-				</h:dataTable>
+					</p:column>
+				</p:dataTable>
 
-			</h:column>
-		</h:dataTable>
+			</p:column>
+		</p:dataTable>
 	</h:form>
 
 

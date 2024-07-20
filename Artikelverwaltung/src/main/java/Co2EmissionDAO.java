@@ -21,7 +21,7 @@ public class Co2EmissionDAO {
 }
     
     public List<Co2Emission> getAllCO2Emissions() {
-        TypedQuery<Co2Emission> query = entityManager.createQuery("SELECT ce FROM CO2Emission ce", Co2Emission.class);
+        TypedQuery<Co2Emission> query = entityManager.createQuery("SELECT ce FROM CO2Emission ce", Co2Emission.class).setHint("javax.persistence.cache.storeMode", "REFRESH");
         return query.getResultList();
     }
     

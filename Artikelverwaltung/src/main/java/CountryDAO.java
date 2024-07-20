@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -50,16 +51,34 @@ public class CountryDAO {
     	   		}
     		}
     	}
+        // Jede Entität aktualisieren
+        for (Country country : resultCountries) {
+            entityManager.refresh(country);
+        }
     	return resultCountries;
     }
     
-    public List<Country> getAllCountriesWithEmissions() {		
-    	   
+    /*public List<Country> getAllCountriesWithEmissions() {		//WORKS
         TypedQuery<Country> query = entityManager.createQuery(
             "SELECT DISTINCT c FROM Country c ", Country.class);
         return query.getResultList();
-    }
+    }*/
     
+    @Transactional
+    public List<Country> getAllCountriesWithEmissions() {		//Erweiterung der Methode, um Akutalisierung vorzunehmen
+        // Abfrage erstellen
+        TypedQuery<Country> query = entityManager.createQuery(
+            "SELECT DISTINCT c FROM Country c ", Country.class);
+        // Ergebnisse abrufen
+        List<Country> countries = query.getResultList();
+        
+        // Jede Entität aktualisieren
+        for (Country country : countries) {
+            entityManager.refresh(country);
+        }
+        
+        return countries;
+    }
 
     
     public List<Country> getFilteredCountries() {	//WORKS
@@ -113,14 +132,32 @@ public class CountryDAO {
     
     //Aufgabe 2
     
-    public List<Country> getCountry(String name){	
+    /*public List<Country> getCountry(String name){			//WORKS
         TypedQuery<Country> query = entityManager.createQuery(
                 "SELECT c " +
                 "FROM Country c " +
                 "WHERE c.name = :name", Country.class);
         query.setParameter("name", name);  // Parameter setzen
         return query.getResultList();
+    }*/
+    
+    public List<Country> getCountry(String name){			//Mit Aktualisierung
+        // Abfrage erstellen
+        TypedQuery<Country> query = entityManager.createQuery(
+            "SELECT c FROM Country c WHERE c.name = :name", Country.class);
+        query.setParameter("name", name);  // Parameter setzen
+        
+        // Ergebnisse abrufen
+        List<Country> countries = query.getResultList();
+        
+        // Jede Entität aktualisieren
+        for (Country country : countries) {
+            entityManager.refresh(country);
+        }
+        
+        return countries;
     }
+
     
     /*public void update(Country country) {		//Wird offensichtlich nicht benötigt
         EntityTransaction transaction = entityManager.getTransaction();

@@ -49,6 +49,7 @@ td.spalte1 {
 }
 */
 
+
 p#fussnote {
   font-size: 0.7em;
 }
@@ -90,6 +91,26 @@ td.nr {
 
 
 
+.noHeader.ui-datatable table thead tr {
+    display: none;
+}
+
+
+.ui-datatable-empty-message {
+    display: none;
+}
+.ui-datatable {
+    width: 100%;
+}
+
+.ui-datatable th, .ui-datatable td {
+    padding: 8px;
+    text-align: center;
+}
+
+.ui-datatable thead th {
+    text-align: center !important;
+}
 
 
 
