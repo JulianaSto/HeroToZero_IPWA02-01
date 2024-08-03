@@ -7,11 +7,13 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
 	<title>Like Hero To Zero: Homepage</title>
 </h:head>
+
 <h:body>
 
 	<h1>Like Hero To Zero: Homepage</h1>
 	<br />
 	<h:form>
+	
 		<p>
 			<h:outputLabel value="Username:" for="user" />
 			<h:inputText id="user" value="#{loginController.user}" size="40"
@@ -23,7 +25,6 @@
 		</p>
 
 		<p>
-
 			<h:outputLabel value="Password: " for="password" />
 			<h:inputSecret id="password" value="#{loginController.password}"
 				size="40" required="true"
@@ -31,11 +32,12 @@
 			<h:message for="password" styleClass="error" />
 		</p>
 
-
 		<p class="error">
 			<h:outputText value="#{loginController.failureMessage}" />
 		</p>
+		
 		<h:commandButton action="#{loginController.login}" value="Login" />
+		
 	</h:form>
 	<br />
 
@@ -43,21 +45,21 @@
 	<h:form>
 		<h:panelGrid columns="2">
 			<h:outputLabel for="countryName" value="Country:" />
-			<h:inputText id="countryName"
+			<h:inputText id="countryName" 
 				value="#{loginController.currentCountryName}" />
 
-			<h:commandButton value="Load latest data set"
+			<h:commandButton value="Load most recent data set"
 				action="#{loginController.loadBoth}" />
 			<br />
 			<h:outputLabel for="maxYear" value="Year of most recent data set:" />
 			<h:outputText id="maxYear" value="#{loginController.maxYear}" />
 
-			<h:outputLabel for="maxYearEmission" value="Most recent emission:" />
+			<h:outputLabel for="maxYearEmission" value="Most recent emission (metric tons per capita):" />
 			<h:outputText id="maxYearEmission"
 				value="#{loginController.maxYearEmission}" />
 		</h:panelGrid>
 		<h:messages globalOnly="true" layout="table"
-			style="color: red; font-weight: bold;" />	<!-- TO DO: css Klasse definieren! -->
+			style="color: red; font-weight: bold;" />															
 	</h:form>
 	<br />
 
@@ -65,22 +67,22 @@
 	<h3>All CO2 Emissions:</h3>
 	<h:form>
 		<p:dataTable value="#{countryDAO.allCountriesWithEmissions}"
-			var="countrys">
+			var="countries">
 			<p:column>
 				<f:facet name="header">Country ID</f:facet>
-				<h:outputText value="#{countrys.countryID}" />
+				<h:outputText value="#{countries.countryID}" />
 			</p:column>
 			<p:column>
 				<f:facet name="header">Country Name</f:facet>
-				<h:outputText value="#{countrys.name}" />
+				<h:outputText value="#{countries.name}" />
 			</p:column>
 			<p:column>
 				<f:facet name="header">Country Code</f:facet>
-				<h:outputText value="#{countrys.countryCode}" />
+				<h:outputText value="#{countries.countryCode}" />
 			</p:column>
 			<p:column>
 				<f:facet name="header">Year</f:facet>
-				<p:dataTable value="#{countrys.approvedCo2Emissionen}" var="emi" styleClass="noHeader">
+				<p:dataTable value="#{countries.approvedCo2Emissions}" var="emi" styleClass="noHeader">
 					<p:column>
 						<h:outputText value="#{emi.year}" />
 					</p:column>
@@ -88,20 +90,14 @@
 			</p:column>
 			<p:column>
 				<f:facet name="header">CO2 Emission (metric tons per capita)</f:facet>
-				<p:dataTable value="#{countrys.approvedCo2Emissionen}" var="emi" styleClass="noHeader">
+				<p:dataTable value="#{countries.approvedCo2Emissions}" var="emi" styleClass="noHeader">
 					<p:column>
 						<h:outputText value="#{emi.emission}" />
 					</p:column>
 				</p:dataTable>
-
 			</p:column>
 		</p:dataTable>
 	</h:form>
-
-
-	<p id="fussnote">
-		Bitte beachten Sie: <br /> Diese Seite ist nur ein Entwurf!
-	</p>
 
 </h:body>
 </html>

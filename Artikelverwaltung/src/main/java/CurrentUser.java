@@ -1,13 +1,12 @@
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
-
 import java.io.Serializable;
 
 @Named
 @SessionScoped
 public class CurrentUser implements Serializable {
 
-    boolean publisher, scientist;	//admin wurde zu publisher, client wurde zu scientist
+    boolean publisher, scientist;	
 
     void reset() {
         publisher = false; scientist = false;

@@ -8,28 +8,36 @@
 	<title>Like Hero To Zero: Publisher</title>
 	<h:outputText value="#{loginController.checkLogin()}" />
 </h:head>
+
 <h:body>
 
-	<h1>Like Hero To Zero: Publisher</h1>
+    <div style="display: flex; align-items: center;">
+        <h1>Like Hero To Zero: Publisher</h1>
+        <a href="public.xhtml" style="margin-left: 20px;">
+            <button>Logout</button>
+        </a>
+    </div>
+    	<h:messages globalOnly="true" layout="table"
+		style="font-weight: bold; font-size: 1.2em; color:black" />
 		<h3>Changes to be approved:</h3>
 	<h:form>
 		<p:dataTable value="#{countryDAO.approvalCountriesWithEmissions}"
-			var="countrys">
+			var="countries">
 			<p:column>
 				<f:facet name="header">Country ID</f:facet>
-				<h:outputText value="#{countrys.countryID}" />
+				<h:outputText value="#{countries.countryID}" />
 			</p:column>
 			<p:column>
 				<f:facet name="header">Country Name</f:facet>
-				<h:outputText value="#{countrys.name}" />
+				<h:outputText value="#{countries.name}" />
 			</p:column>
 			<p:column>
 				<f:facet name="header">Country Code</f:facet>
-				<h:outputText value="#{countrys.countryCode}" />
+				<h:outputText value="#{countries.countryCode}" />
 			</p:column>
 			<p:column>
 				<f:facet name="header">Year</f:facet>
-				<p:dataTable value="#{countrys.notApprovedCo2Emissionen}" var="emi" styleClass="noHeader">
+				<p:dataTable value="#{countries.notApprovedCo2Emissions}" var="emi" styleClass="noHeader">
 					<p:column>
 						<h:outputText value="#{emi.year}" />
 					</p:column>
@@ -37,7 +45,7 @@
 			</p:column>
 			<p:column>
 				<f:facet name="header">CO2 Emission (metric tons per capita)</f:facet>
-				<p:dataTable value="#{countrys.notApprovedCo2Emissionen}" var="emi" styleClass="noHeader">
+				<p:dataTable value="#{countries.notApprovedCo2Emissions}" var="emi" styleClass="noHeader">
 					<p:column>
 						<h:outputText value="#{emi.emission}" />
 					</p:column>
@@ -46,7 +54,7 @@
 			</p:column>
 				<p:column>
 				<f:facet name="header">Approval</f:facet>
-				<p:dataTable value="#{countrys.notApprovedCo2Emissionen}" var="emi" styleClass="noHeader">
+				<p:dataTable value="#{countries.notApprovedCo2Emissions}" var="emi" styleClass="noHeader">
 					<p:column>
 						<h:commandButton value="Approve" action="#{publisherController.approve(emi)}" rendered="#{!emi.approved}"  />
 					</p:column>
@@ -55,7 +63,6 @@
 			</p:column>
 		</p:dataTable>
 	</h:form>
-
 
 </h:body>
 </html>

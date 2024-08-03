@@ -1,5 +1,4 @@
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 
 @Entity
@@ -13,22 +12,20 @@ public class Co2Emission implements Serializable  {
     private boolean approved; 
     
     @ManyToOne
-    @JoinColumn(name = "countryID", referencedColumnName = "countryID")	//name = "countryID": Dies ist der Name der Spalte in der Tabelle CO2Emission, die den Fremdschlüssel zur Country-Tabelle darstellt. referencedColumnName = "countryID": Dies ist der Name der Spalte in der Tabelle Country, auf die die Spalte countryID in der Tabelle CO2Emission verweist.
+    @JoinColumn(name = "countryID", referencedColumnName = "countryID")			
     private Country country;
     
-
     
-	
 	public Co2Emission() {
 
     }
 
-    public Co2Emission (int year, float emission) {
+    public Co2Emission (int year, float emission) {	
         this.year = year;
         this.emission = emission;
     }
 
-
+    
 	public int getId() {
 		return id;
 	}
@@ -52,25 +49,20 @@ public class Co2Emission implements Serializable  {
 	public void setEmission(float emission) {
 		this.emission = emission;
 	}
-	public void setCountry(Country country) {
-	    this.country = country;
-	    if (!country.getCo2Emissionen().contains(this)) {
-	        country.addCo2Emission(this);
-	    }
-	}
-
+	
 	public boolean isApproved() {
 		return approved;
 	}
 
 	public void setApproved(boolean approved) {
 		this.approved = approved;
+	}  
+	
+	public void setCountry(Country country) {	
+	    this.country = country;
+	    if (!country.getCo2Emissions().contains(this)) {
+	        country.addCo2Emission(this);
+	    }
 	}
-
-
-
-
-
-    
     
 }

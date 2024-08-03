@@ -8,7 +8,6 @@ import jakarta.faces.validator.ValidatorException;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
 import java.io.Serializable;
 
 @Named
@@ -31,17 +30,11 @@ public class LoginController implements Serializable {
     private int maxYear;
     private float maxYearEmission;
 
-
-    // TODO: diese Wert sollte aus einer Konfiguration kommen.
-    //       Jede Installation sollte eine Unterschiedlich haben.
-    //       Dieser Salt muss geheim bleiben.
     private static final String salt = "vXsia8c04PhBtnG3isvjlemj7Bm6rAhBR8JRkf2z";
 
-    // das sind die text-felder (zB, um zu den Benutzern zu zeigen)
+
     String user, password;
-    // dieses Feld ist für die Lagerung in den Validierungsstufen
     String tempUsername;
-    // dieser Feld ist für die Anzeige zu den Benutzern das nächste Mal
     String failureMessage = "";
 
     public String getUser() {
@@ -67,9 +60,32 @@ public class LoginController implements Serializable {
     public void setFailureMessage(String failureMessage) {
         this.failureMessage = failureMessage;
     }
+    
+	public String getCurrentCountryName() {			
+		return currentCountryName;
+	}
 
-    // this method should be called early to avoid providing information if the user is not logged in
-    public void checkLogin() {
+	public void setCurrentCountryName(String currentCountryName) {
+		this.currentCountryName = currentCountryName;
+	}
+	
+    public int getMaxYear() {
+        return maxYear;
+    }
+
+    public void setMaxYear(int maxYear) {
+        this.maxYear = maxYear;
+    }
+    
+	public float getMaxYearEmission() {
+		return maxYearEmission;
+	}
+
+	public void setMaxYearEmission(float maxYearEmission) {
+		this.maxYearEmission = maxYearEmission;
+	}
+
+    public void checkLogin() {																		
         if(!currentUser.isValid()) {
             failureMessage = "Bitte loggen Sie sich ein.";
             FacesContext fc = FacesContext.getCurrentInstance();
@@ -79,24 +95,19 @@ public class LoginController implements Serializable {
 
     }
 
-    public String logout() {
-        currentUser.reset();
-        return "login.xhtml?faces-redirect=true";
-    }
-
-    public void postValidateUser(ComponentSystemEvent ev) {
+    public void postValidateUser(ComponentSystemEvent ev) { 		
         UIInput temp = (UIInput) ev.getComponent();
         this.tempUsername = (String) temp.getValue();
     }
 
-    public void validateLogin(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+    public void validateLogin(FacesContext context, UIComponent component, Object value) throws ValidatorException { 
         String password = (String) value;
         userCredentials.validateUsernameAndPassword(currentUser, tempUsername, password, salt);
         if (!currentUser.isValid())
-            throw new ValidatorException(new FacesMessage("Login falsch!"));	//diese message wird im xhtml ausgegeben
+            throw new ValidatorException(new FacesMessage("Login failed!"));	
     }
 
-    public String login() {
+    public String login() {			 
         if (currentUser.isPublisher()) {
             this.failureMessage = "";
             return "publisher.xhtml?faces-redirect=true";
@@ -104,7 +115,7 @@ public class LoginController implements Serializable {
             this.failureMessage = "";
             return "scientist.xhtml?faces-redirect=true";
         } else {
-            this.failureMessage = "Passwort und Benutzername nicht erkannt.";
+            this.failureMessage = "Unknown password and user name.";
             return "";
         }
     }
@@ -118,52 +129,15 @@ public class LoginController implements Serializable {
 
     }
 
-
-
-
-//Folgend: Eigene Implementierungen
-	public String getCurrentCountryName() {
-		return currentCountryName;
-	}
-
-	public void setCurrentCountryName(String currentCountryName) {
-		this.currentCountryName = currentCountryName;
-	}
-	
-
-    public int getMaxYear() {
-        return maxYear;
-    }
-
-    public void setMaxYear(int maxYear) {
-        this.maxYear = maxYear;
-    }
-    
-
-    public void loadMaxYearForAny() throws CountryNotFoundException {
-        this.maxYear = countryDAO.getMaxYearForAny(currentCountryName);
-    }
-    
-
-	public float getMaxYearEmission() {
-		return maxYearEmission;
-	}
-
-	public void setMaxYearEmission(float maxYearEmission) {
-		this.maxYearEmission = maxYearEmission;
-	}
-    public void loadMaxYearEmissionForAny() throws CountryNotFoundException {
-        this.maxYearEmission = countryDAO.getMaxYearEmissionForAny(currentCountryName);
-    }
-    public void loadBoth() {
-    	this.maxYearEmission = 0; //Reset
-        this.maxYear = 0;
+    public void loadBoth() {		
+    	this.maxYearEmission = 0; 	//Reset
+        this.maxYear = 0;			//Reset
     	try {
     	this.maxYearEmission = countryDAO.getMaxYearEmissionForAny(currentCountryName);
         this.maxYear = countryDAO.getMaxYearForAny(currentCountryName);
     	}catch (CountryNotFoundException e) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "The specified country could not be found.", e.getMessage()));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(),""));
         }
     }
 

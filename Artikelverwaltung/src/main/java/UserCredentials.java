@@ -1,19 +1,13 @@
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
-
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
-import org.checkerframework.checker.units.qual.Current;
 
 @Named
 @ApplicationScoped
-public class UserCredentials implements Serializable
-{
-
+public class UserCredentials implements Serializable{
 
     private final String[][] users =
             new String[][]{
@@ -30,8 +24,6 @@ public class UserCredentials implements Serializable
     public UserCredentials() {
     }
 
-
-
     static String hashPassword(String name, String pass, String salt) {
         try {
             MessageDigest digester = MessageDigest.getInstance("SHA-512");
@@ -43,10 +35,12 @@ public class UserCredentials implements Serializable
         }
     }
 
-    void validateUsernameAndPassword(CurrentUser currentUser, String name,String pass, String salt) {
+    void validateUsernameAndPassword(CurrentUser currentUser, String name,String pass, String salt) { 
         String passHash = hashPassword(name, pass, salt);
         currentUser.reset();
-        for(String[] user: users) {	//jeder user vom String-Array users (oben) hat eine Liste bestehend aus name, hash und status (s.o.): Abgleich aller Positionen
+      //Vergleich des Benutzernamens und des passHash  mit allen angelegten Nutzern im
+        //String-Array "users" sowie Identifikation der Rolle
+        for(String[] user: users) {	
             if(user[0].equals(name)) {
                 if(user[1].equals(passHash)) {
                     if(user[2].equals("publisher")) {
@@ -54,7 +48,8 @@ public class UserCredentials implements Serializable
                     } else if(user[2].equals("scientist")) {
                         currentUser.scientist = true; return;
                     }
-                    else throw new RuntimeException("Benutzer " + name + " ist falsch angelegt."); //wenn der user weder admin noch client ist
+                  //Exception, wenn Benutzer ohne gültige Rolle angelegt ist
+                    else throw new RuntimeException("User " + name + " is not correctly assigned."); 
                 }
             }
         }

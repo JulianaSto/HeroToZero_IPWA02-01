@@ -8,14 +8,19 @@
 	<title>Like Hero To Zero: Scientist</title>
 	<h:outputText value="#{loginController.checkLogin()}" />
 </h:head>
+
 <h:body>
 
-	<h1>Like Hero To Zero: Scientist</h1>
+    <div style="display: flex; align-items: center;">
+        <h1>Like Hero To Zero: Scientist</h1>
+        <a href="public.xhtml" style="margin-left: 20px;">
+            <button>Logout</button>
+        </a>
+    </div>
+
 	<h:messages globalOnly="true" layout="table"
-		style="font-weight: bold; font-size: 1.2em; color:green" />
+		style="font-weight: bold; font-size: 1.2em; color:black" />
 
-
-	<!-- Tabelle zum Einfügen neuer Werte-->
 	<h:form>
 		<h:panelGrid columns="2">
 			<h:outputLabel for="name" value="Set Country to change/add data:" />
@@ -25,27 +30,30 @@
 				action="#{scientistController.loadCountry}"
 				update=":form:emissionTable :form:messages" />
 		</h:panelGrid>
+		
 		<br />
 		<br />
-		<!-- START Show Emission for this country Output-Test-->
 
 		<p:dataTable id="emissionTable"
-			value="#{scientistController.aktuelleCountry}" var="countryTest">
+			value="#{scientistController.aktuelleCountry}" var="selectedCountry">
+			
 			<p:column>
 				<f:facet name="header" style="text-align:center">Country</f:facet>
-				<h:outputText value="#{countryTest.name}" />
+				<h:outputText value="#{selectedCountry.name}" />
 			</p:column>
+			
 			<p:column >
 				<f:facet name="header">Year</f:facet>
-				<p:dataTable value="#{countryTest.co2Emissionen}" var="emi" styleClass="noHeader">
+				<p:dataTable value="#{selectedCountry.co2Emissions}" var="emi" styleClass="noHeader">
 					<p:column>
 						<h:outputText value="#{emi.year}" />
 					</p:column>
 				</p:dataTable>
 			</p:column>
+			
 			<p:column>
-				<f:facet name="header">CO2 Emissions</f:facet>
-				<p:dataTable value="#{countryTest.co2Emissionen}" var="emi" styleClass="noHeader">
+				<f:facet name="header">CO2 Emission (metric tons per capita)</f:facet>
+				<p:dataTable value="#{selectedCountry.co2Emissions}" var="emi" styleClass="noHeader">
 					<p:column>
 						<h:outputText value="#{emi.emission}" />
 					</p:column>
@@ -54,18 +62,14 @@
 			</p:column>
 			<p:column>
 				<f:facet name="header">Approved</f:facet>
-				<p:dataTable value="#{countryTest.co2Emissionen}" var="emi" styleClass="noHeader">
+				<p:dataTable value="#{selectedCountry.co2Emissions}" var="emi" styleClass="noHeader">
 					<p:column>
 						<h:outputText value="#{emi.approved}" />
 					</p:column>
 				</p:dataTable>
-
-			</p:column>
+			</p:column>			
 		</p:dataTable>
 
-		<!-- ENDE Show Emission for this country Output-Test-->
-
-		<!-- START Benutzereingabe neue Emission -->
 		<h3>Add new data set:</h3>
 		<h:panelGrid id="inputTable" columns="2">
 			<h:outputLabel for="year" value="Year:" />
@@ -92,57 +96,46 @@
 				update=":form:emissionTable :form:emissionTable2 :form:messages" />
 
 		</h:panelGrid>
+
 		<br />
 
-		<!-- ENDE Benutzereingabe neue Emission -->
-
-
-		<!-- START Emission bearbeiten -->
 		<h3>Change existent data set:</h3>
 		<p:dataTable id="emissionTable2"
-			value="#{scientistController.aktuelleCountry}" var="countryTest">
+			value="#{scientistController.aktuelleCountry}" var="selectedCountry">
 			<p:column>
 				<f:facet name="header">Country</f:facet>
-				<h:outputText value="#{countryTest.name}" />
+				<h:outputText value="#{selectedCountry.name}" />
 			</p:column>
 			<p:column>
 				<f:facet name="header">Year</f:facet>
-				<p:dataTable value="#{countryTest.co2Emissionen}" var="emi" styleClass="noHeader">
+				<p:dataTable value="#{selectedCountry.co2Emissions}" var="emi" styleClass="noHeader">
 					<p:column>
-						<p:inputText id="year2" style="text-align:center" value="#{emi.year}" converterMessage="Year must be an integer. Example: 2024"/>
-						
+						<p:inputText id="year2" style="text-align:center" value="#{emi.year}"
+						converterMessage="Year must be an integer. Example: 2024"/>
+						<br />
 						<h:message for="year2" styleClass="error" />
 					</p:column>
 				</p:dataTable>
 			</p:column>
 			<p:column>
 				<f:facet name="header">CO2 Emission (metric tons per capita)</f:facet>
-				<p:dataTable value="#{countryTest.co2Emissionen}" var="emi" styleClass="noHeader" >
+				<p:dataTable value="#{selectedCountry.co2Emissions}" var="emi" styleClass="noHeader" >
 					<p:column>
-						<p:inputText id="emission2" style="text-align:center" value="#{emi.emission}" converterMessage="CO2 emission must be a decimal number. Example: 1.2" />
+						<p:inputText id="emission2" style="text-align:center" value="#{emi.emission}"
+						converterMessage="CO2 emission must be a decimal number. Example: 1.2" />
 						
 						<h:commandButton value="Save Changes"
-							actionListener="#{scientistController.changeEmission(emi)}"
+							action="#{scientistController.changeEmission(emi)}"
 							update=":form:emissionTable :form:messages">
 						</h:commandButton>
 						<br />
-						<h:message for="emission2" styleClass="error" />
-						
-						
+						<h:message for="emission2" styleClass="error" />						
 					</p:column>
 				</p:dataTable>
-
 			</p:column>
-
-
 		</p:dataTable>
-					
-		
-
 	</h:form>
-
-
-
+	
 </h:body>
 </html>
 

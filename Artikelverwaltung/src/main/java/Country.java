@@ -1,5 +1,4 @@
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -7,14 +6,11 @@ import java.util.*;
 public class Country implements Serializable {
 	@Id
 	private int countryID;
-
 	private String name;
-
 	private String countryCode;
-	
-	@OneToMany(mappedBy = "country", fetch = FetchType.EAGER, cascade = CascadeType.ALL)	//"country" bezieht sich auf das Attribut in CO2Emission
-    private List<Co2Emission> co2Emissionen = new ArrayList<>(); //Bei einer OneToMany-Beziehung wird immer eine Collection benötigt. co2Emissionen ist das Attribut in der Country-Entität, das die Beziehung zu CO2Emission darstellt. Dieses Attribut wird in der JPQL-Abfrage verwendet, um die Beziehung zwischen Country und CO2Emission zu definieren.
-	
+
+	@OneToMany(mappedBy = "country", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Co2Emission> co2Emissionen = new ArrayList<>();
 
 	public Country() {
 	}
@@ -43,30 +39,32 @@ public class Country implements Serializable {
 		this.countryCode = code;
 	}
 
-    public List<Co2Emission> getCo2Emissionen() {
-        return co2Emissionen;
-    }
-    public List<Co2Emission> getApprovedCo2Emissionen() {	
-    	 List<Co2Emission> modifiedCo2Emissionen = new ArrayList<>();
-    	for (Co2Emission emission : co2Emissionen) {
-    		if (emission.isApproved() == true) {
-    			modifiedCo2Emissionen.add(emission);
-    		}
-    	}
-    	return modifiedCo2Emissionen;
-    }
-    public List<Co2Emission> getNotApprovedCo2Emissionen() {	//NEU
-   	 List<Co2Emission> modifiedCo2Emissionen = new ArrayList<>();
-   	for (Co2Emission emission : co2Emissionen) {
-   		if (emission.isApproved() == false) {
-   			modifiedCo2Emissionen.add(emission);
-   		}
-   	}
-   	return modifiedCo2Emissionen;
-   }
+	public List<Co2Emission> getCo2Emissions() {
+		return co2Emissionen;
+	}
 
-    public void addCo2Emission(Co2Emission co2Emission) {
-    	co2Emissionen.add(co2Emission);
-    }
-    
+	public List<Co2Emission> getApprovedCo2Emissions() {
+		List<Co2Emission> modifiedCo2Emissions = new ArrayList<>();
+		for (Co2Emission emission : co2Emissionen) {
+			if (emission.isApproved() == true) {
+				modifiedCo2Emissions.add(emission);
+			}
+		}
+		return modifiedCo2Emissions;
+	}
+
+	public List<Co2Emission> getNotApprovedCo2Emissions() {
+		List<Co2Emission> modifiedCo2Emissions = new ArrayList<>();
+		for (Co2Emission emission : co2Emissionen) {
+			if (emission.isApproved() == false) {
+				modifiedCo2Emissions.add(emission);
+			}
+		}
+		return modifiedCo2Emissions;
+	}
+
+	public void addCo2Emission(Co2Emission co2Emission) {
+		co2Emissionen.add(co2Emission);
+	}
+
 }
